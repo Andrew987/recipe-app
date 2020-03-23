@@ -3,11 +3,14 @@ package cz.mailmuni.andirs.recipeapp.bootstrap;
 import cz.mailmuni.andirs.recipeapp.model.*;
 import cz.mailmuni.andirs.recipeapp.repositories.RecipeRepository;
 import cz.mailmuni.andirs.recipeapp.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
+@Slf4j
 @Component
 public class RecipeBootstrap implements CommandLineRunner {
 
@@ -20,8 +23,11 @@ public class RecipeBootstrap implements CommandLineRunner {
     }
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
+        log.debug("Loading bootstrap data ...");
         loadData();
+        log.debug("Finished loading bootstrap data");
     }
 
     private void loadData() {
