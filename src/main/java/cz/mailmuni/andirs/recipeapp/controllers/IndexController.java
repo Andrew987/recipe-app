@@ -19,8 +19,7 @@ public class IndexController {
 
     @RequestMapping({"", "index"})
     public String getIndexPage(Model model) {
-        log.debug("THE INDEX CONTROLLER!!!");
-        Iterable<Recipe> recipes = recipeService.getAllRecipes();
+        Iterable<Recipe> recipes = recipeService.findAllRecipes();
         model.addAttribute("recipes", recipes);
         return "index";
     }

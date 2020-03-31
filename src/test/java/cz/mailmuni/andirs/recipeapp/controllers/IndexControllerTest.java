@@ -2,11 +2,12 @@ package cz.mailmuni.andirs.recipeapp.controllers;
 
 import cz.mailmuni.andirs.recipeapp.model.Recipe;
 import cz.mailmuni.andirs.recipeapp.service.RecipeService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
@@ -20,8 +21,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+@ExtendWith(MockitoExtension.class)
 class IndexControllerTest {
 
+    @InjectMocks
     IndexController indexController;
 
     @Mock
@@ -29,13 +32,6 @@ class IndexControllerTest {
 
     @Mock
     Model model;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
-        indexController = new IndexController(recipeService);
-    }
-
 
     @Test
     void testMethod() throws Exception {
@@ -55,7 +51,7 @@ class IndexControllerTest {
         recipesData.add(recipe);
         recipesData.add(new Recipe());
 
-        when(recipeService.getAllRecipes()).thenReturn(recipesData);
+        when(recipeService.findAllRecipes()).thenReturn(recipesData);
 
         ArgumentCaptor<Set<Recipe>> argumentCaptor = ArgumentCaptor.forClass(Set.class);
 
@@ -64,7 +60,7 @@ class IndexControllerTest {
 
         //then
         assertEquals("index", viewName);
-        verify(recipeService, times(1)).getAllRecipes();
+        verify(recipeService, times(1)).findAllRecipes();
         verify(model, times(1)).addAttribute(eq("recipes"), argumentCaptor.capture());
         Set<Recipe> setInController = argumentCaptor.getValue();
         assertEquals(2, setInController.size());

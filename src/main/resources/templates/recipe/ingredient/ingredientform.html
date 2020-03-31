@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit Ingredient</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}">
+</head>
+
+<body>
+<div class="row justify-content-center" style="margin-top: 20px">
+    <div class="col-md-6">
+            <form  th:object="${ingredient}" th:action="@{'/recipe/' + ${ingredient.getRecipeId()} + '/ingredient'} " method="post">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h1 class="card-title">Edit Ingredient Information</h1>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-md-3 form-group">
+                                <label>Description:</label>
+                                <input type="text" class="form-control" th:field="*{description}"/>
+                            </div>
+
+                            <div class="col-md-3 form-group">
+                                <label>Amount:</label>
+                                <input type="number" class="form-control" th:field="*{amount}"/>
+                            </div>
+
+                            <div class="col-md-3 form-group">
+                                <label>UOM:</label>
+                                <select class="form-control" name="uom.id">
+                                    <option th:each="uomEach : ${uomList}"
+                                            th:value="${uomEach.id}"
+                                            th:selected="${uomEach.id.equals(ingredient.uom.id)}"
+                                            th:text="${uomEach.description}">Each</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+    </div>
+</div>
+</body>
+</html>

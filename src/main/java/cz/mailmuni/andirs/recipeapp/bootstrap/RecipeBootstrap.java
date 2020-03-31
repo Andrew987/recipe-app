@@ -40,6 +40,8 @@ public class RecipeBootstrap implements CommandLineRunner {
         guacamole.setPrepTime(10);
         guacamole.setCookTime(0);
         guacamole.setDifficulty(Difficulty.EASY);
+        guacamole.setSource("Simply Recipes");
+        guacamole.setUrl("https://www.simplyrecipes.com/recipes/perfect_guacamole/");
 
         addIngredient(guacamole, "avocado", 2, "Piece");
         addIngredient(guacamole, "salt", 1f/4, "Teaspoon");
