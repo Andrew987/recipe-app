@@ -6,7 +6,10 @@ import cz.mailmuni.andirs.recipeapp.service.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -39,7 +42,15 @@ public class RecipeController {
 
     @PostMapping
     @RequestMapping("save")
-    public String saveOrUpdate(@ModelAttribute RecipeDTO recipeDTO) {
+    public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeDTO recipeDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(error -> {
+                log.debug(error.toString());
+            });
+
+            return "recipe/recipeform";
+        }
+
         RecipeDTO savedDTO = recipeService.saveRecipeDTO(recipeDTO);
 
         return "redirect:/recipe/show/" + savedDTO.getId();
@@ -52,4 +63,5 @@ public class RecipeController {
         recipeService.deleteById(id);
         return "redirect:/";
     }
+
 }

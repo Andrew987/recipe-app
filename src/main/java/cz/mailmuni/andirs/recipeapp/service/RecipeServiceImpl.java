@@ -3,6 +3,7 @@ package cz.mailmuni.andirs.recipeapp.service;
 import cz.mailmuni.andirs.recipeapp.converters.RecipeDTOToRecipe;
 import cz.mailmuni.andirs.recipeapp.converters.RecipeToRecipeDTO;
 import cz.mailmuni.andirs.recipeapp.dto.RecipeDTO;
+import cz.mailmuni.andirs.recipeapp.exceptions.NotFoundException;
 import cz.mailmuni.andirs.recipeapp.model.Recipe;
 import cz.mailmuni.andirs.recipeapp.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +42,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe findById(Long id) {
         return recipeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Recipe not found"));
+                .orElseThrow(() -> new NotFoundException("Recipe not found for ID value: " + id));
     }
 
     @Override
